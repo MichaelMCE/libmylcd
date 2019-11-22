@@ -19,32 +19,18 @@
 #include "utils/utils.h"
 
 
-void listbdf (THWD *hw)
-{
-	TENUMFONT *enf = lEnumFontsBeginW(hw);
-	if (enf != NULL){
-		while(lEnumFontsNextW(enf)){
-			wprintf(L"%i '%s'\n",enf->id, enf->wfont->file);
-		}
-		lEnumFontsDeleteW(enf);
-		printf("\n");
-	}else{
-		printf("lEnumWFontsBegin returned NULL\n");
-	}
-}
 
-void listimgbitmap (THWD *hw)
+void listdrv (THWD *hw, int which)
 {
-	TENUMFONT *enf = lEnumFontsBeginA(hw);
-	if (enf != NULL){
-		while(lEnumFontsNextA(enf)){
-			wprintf(L"%i '%s'\n",enf->id, enf->font->file);
-		}
-		lEnumFontsDeleteA(enf);
-		printf("\n");
-	}else{
-		printf("lEnumFontsBegin() returned NULL\n");
+	TREGDRV *drv = lEnumerateDriversBegin(hw, which);
+	if (drv){
+		printf("Total: %i\n",drv->total);
+		do{
+			printf("%i  \"%s\"\t\"%s\"\n", drv->index, drv->name, drv->comment);
+		}while(lEnumerateDriverNext(drv));
+		lEnumerateDriverEnd(drv);
 	}
+	printf("\n");
 }
 
 int main (int argc, char* argv[])
@@ -54,9 +40,9 @@ int main (int argc, char* argv[])
 		printf("lOpenLibrary() failed\n");
 		return EXIT_FAILURE;
 	}
-
-	listimgbitmap(hw);
-	listbdf(hw);
+	
+	listdrv(hw, LDRV_DISPLAY);
+	listdrv(hw, LDRV_PORT);
 	lClose(hw);
 	
 	return EXIT_SUCCESS;
