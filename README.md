@@ -2,11 +2,11 @@
 # libmylcd
 ## v1.0.0
 
-libmylcd includes 4 base API's in one:
-  Full unciode text rendering API.
-  Display driver API.
-  A base drawing primitive API.
-  Surface layer API to bind everything together.
+libmylcd includes 4 base API's in one:<br/>
+  Full unciode text rendering API.<br/>
+  Display driver API.<br/>
+  A base drawing primitive API.<br/>
+  Surface layer API to bind everything together.<br/>
 
 
 
@@ -14,15 +14,14 @@ libmylcd includes 4 base API's in one:
 
 
 libmylcd is a modular multi-platform framebuffer API framework library designed to provide 
-low level access to 2D hardware via a video framebuffer.
+low level access to 2D hardware via a video framebuffer.<br/>
 libmylcd contains an API's for drawing, plotting, printing text, scaling, rotating, copying,
 moving, loading and saving of images and frames and scrolling of images/frames & text too.
 With two proportional font engines, supporting ASCII and Unicode (wide character) font sets,
 enabling the support of non-ASCII character sets such as traditional and simplifed Chinese.
 
 
-There isn't anything in the way of documentation but viewing mylcd.h and the examples
-should give you enough to get started.
+Viewing mylcd.h and the examples should give you enough to get started.
 In the mean time here follows a quick 'it'll-get-you-started' lesson.
 
 
