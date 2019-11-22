@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1097018772 source:k:\code\mylcd\contribs\src\openglut\src\og_callbacks.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1082434786 k:\code\mylcd\contribs\src\openglut\include\gl\openglut.h
+	"openglut_std.h"
+	"openglut_ext.h"
+
+1097019772 k:\code\mylcd\contribs\src\openglut\include\gl\openglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1094867948 k:\code\mylcd\contribs\src\openglut\include\gl\openglut_ext.h
+
+1097019772 k:\code\mylcd\contribs\src\openglut\src\og_internal.h
+	<windows.h>
+	<windowsx.h>
+	<mmsystem.h>
+	<tchar.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<assert.h>
+	<math.h>
+	<setjmp.h>
+	<stdarg.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<GL/glx.h>
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/xf86vmode.h>
+	<unistd.h>
+	<sys/time.h>
+

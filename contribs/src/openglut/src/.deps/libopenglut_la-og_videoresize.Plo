@@ -1,0 +1,106 @@
+libopenglut_la-og_videoresize.lo: og_videoresize.c ../config.h \
+ ../include/GL/openglut.h ../include/GL/openglut_std.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/windows.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/include/stdarg.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/windef.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winnt.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winerror.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/string.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/_mingw.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/include/stddef.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/basetsd.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/pshpack4.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/poppack.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/wincon.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winbase.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/wingdi.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winuser.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winnls.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winver.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winnetwk.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winreg.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winsvc.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/GL/gl.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/GL/glu.h \
+ ../include/GL/openglut_ext.h og_internal.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/windowsx.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/mmsystem.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/tchar.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/assert.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/math.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/setjmp.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/stdlib.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/stdio.h \
+ r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/sys/types.h
+
+../config.h:
+
+../include/GL/openglut.h:
+
+../include/GL/openglut_std.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/windows.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/include/stdarg.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/windef.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winnt.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winerror.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/string.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/_mingw.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/include/stddef.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/basetsd.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/pshpack4.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/poppack.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/wincon.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winbase.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/wingdi.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winuser.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winnls.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winver.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winnetwk.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winreg.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/winsvc.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/GL/gl.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/GL/glu.h:
+
+../include/GL/openglut_ext.h:
+
+og_internal.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/windowsx.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/mmsystem.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/tchar.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/assert.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/math.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/setjmp.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/stdlib.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/stdio.h:
+
+r:\mingw\bin\../lib/gcc/mingw32/4.7.1/../../../../include/sys/types.h:

@@ -1,0 +1,94 @@
+# depslib dependency file v1.0
+1100329530 source:c:\code\zlib-1.2.3\inffast.c
+	"zutil.h"
+	"inftrees.h"
+	"inflate.h"
+	"inffast.h"
+
+1121114148 c:\code\zlib-1.2.3\zutil.h
+	"zlib.h"
+	<stddef.h>
+	<string.h>
+	<stdlib.h>
+	<errno.h>
+	<alloc.h>
+	<malloc.h>
+	<malloc.h>
+	<unix.h>
+	<stdio.h>
+
+1121653610 c:\code\zlib-1.2.3\zlib.h
+	"zconf.h"
+
+1117262436 c:\code\zlib-1.2.3\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1121064638 c:\code\zlib-1.2.3\inftrees.h
+
+1100327908 c:\code\zlib-1.2.3\inflate.h
+
+1041446780 c:\code\zlib-1.2.3\inffast.h
+
+1057556276 source:c:\code\zlib-1.2.3\compress.c
+	"zlib.h"
+
+1118620568 source:c:\code\zlib-1.2.3\crc32.c
+	<stdio.h>
+	"zutil.h"
+	<limits.h>
+	"crc32.h"
+
+1041789214 c:\code\zlib-1.2.3\crc32.h
+
+1121653652 source:c:\code\zlib-1.2.3\deflate.c
+	"deflate.h"
+
+1117382122 c:\code\zlib-1.2.3\deflate.h
+	"zutil.h"
+
+1121113908 source:c:\code\zlib-1.2.3\gzio.c
+	<stdio.h>
+	"zutil.h"
+	<stdarg.h>
+
+1117493880 source:c:\code\zlib-1.2.3\infback.c
+	"zutil.h"
+	"inftrees.h"
+	"inflate.h"
+	"inffast.h"
+	"inffixed.h"
+
+1038185098 c:\code\zlib-1.2.3\inffixed.h
+
+1103651528 source:c:\code\zlib-1.2.3\adler32.c
+	"zlib.h"
+
+1118785812 source:c:\code\zlib-1.2.3\inflate.c
+	"zutil.h"
+	"inftrees.h"
+	"inflate.h"
+	"inffast.h"
+	"inffixed.h"
+	<stdio.h>
+
+1121653642 source:c:\code\zlib-1.2.3\inftrees.c
+	"zutil.h"
+	"inftrees.h"
+
+1118622882 source:c:\code\zlib-1.2.3\trees.c
+	"deflate.h"
+	<ctype.h>
+	"trees.h"
+	<stdio.h>
+
+888326096 c:\code\zlib-1.2.3\trees.h
+
+1057556216 source:c:\code\zlib-1.2.3\uncompr.c
+	"zlib.h"
+
+1118623070 source:c:\code\zlib-1.2.3\zutil.c
+	"zutil.h"
+

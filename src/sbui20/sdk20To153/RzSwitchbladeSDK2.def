@@ -1,0 +1,16 @@
+; r:\MinGW\bin\dlltool --base-file C:\Users\a\AppData\Local\Temp\cca43596.base --output-exp RzSwitchbladeSDK2.exp --dllname RzSwitchbladeSDK2.dll -k --add-stdcall-alias --output-def sdk2.def --exclude-symbol=DllMainCRTStartup@12 --def RzSwitchbladeSDK2.def --output-lib libRzSwitchbladeSDK2.a
+EXPORTS
+	RzSBQueryCapabilities @ 1
+	RzSBStart @ 2
+	RzSBStop @ 3
+	RzSBAppEventSetCallback @ 4
+	RzSBDynamicKeySetCallback @ 5
+	RzSBGestureSetCallback @ 6
+	RzSBSetImageDynamicKey @ 7
+	RzSBSetImageTouchpad @ 8
+	RzSBEnableGesture @ 9
+	RzSBEnableOSGesture @ 10
+	RzSBRenderBuffer @ 11
+	RzSBKeyboardCaptureSetCallback @ 12
+	RzSBCaptureKeyboard @ 13
+

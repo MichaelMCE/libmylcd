@@ -1,0 +1,299 @@
+These two documents might help filling the blanks:
+http://www.lcdinfo.com/usb13700/documentation/api_html/display__lib___u_s_b13700_8h.html
+http://www.lcdinfo.com/usb13700/config_tool.pdf
+
+
+
+#define USB13700_VID 0x16C0
+#define USB13700_PID 0x08A2 
+#define EP_IN 0x82
+#define EP_OUT 0x02
+
+#define CMD_GET_BASICCONFIGDATA		1
+#define CMD_WRITE_FULLSCREEN		2
+#define CMD_SET_CONFIGDATA		3
+#define CMD_SET_BACKLIGHT		4
+#define CMD_GET_BACKLIGHTCONFIGDATA	5
+#define CMD_WRITE_S1D13700_COMMAND	7
+#define CMD_WRITE_S1D13700_DATA 	8
+#define CMD_WRITE_S1D13700_DATA_BYTE	9
+#define CMD_WRITE_AREA                  13
+#define CMD_EXPORT_CONFIG               15
+#define CMD_EXPORT_IO_CONFIG            16
+#define CMD_EXPORT_IO_SET               17
+#define CMD_EXPORT_IO_GET               18
+#define CMD_EXPORT_SPI_CONFIG           19
+#define CMD_EXPORT_SPI_SEND             20
+#define CMD_EXPORT_SPI_RECEIVE          21
+#define CMD_EXPORT_SPI_SETSSEL          22
+#define CMD_SET_S1D13700_CLK_DIV        23
+
+#define MSG_COMMAND 10
+#define MSG_REPLY   20
+#define FW_CMD_SUCCESS 1
+#define FW_CMD_ERROR   0
+#define MODE_NORMAL     20
+
+
+
+CMD_GET_BASICCONFIGDATA
+-----------------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_GET_BASICCONFIGDATA;
+	buffer[2] = MSG_COMMAND;
+
+Succesfull reply:
+	in_buf[0]==CMD_GET_BASICCONFIGDATA && in_buf[1]==MSG_REPLY
+	width = in_buf[2] | (in_buf[3] << 8);
+	height = in_buf[4] | (in_buf[5] << 8);	
+	// 32 bytes, device name string ("USB13700")
+	// 16 bytes, username string
+	// 1 byte, mode (should be MODE_NORMAL)
+	// 2 bytes, firmware version
+	// 1 byte, dispclkdiv
+	// 1 byte, fpshiftdiv
+	// 1 byte, tcrcrdiff
+
+
+CMD_GET_BACKLIGHTCONFIGDATA
+---------------------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_GET_BACKLIGHTCONFIGDATA;
+	buffer[2] = MSG_COMMAND;
+
+Successfull reply:
+	readBuffer[readIndex+0] == CMD_GET_BACKLIGHTCONFIGDATA
+	readBuffer[readIndex+1] == MSG_REPLY
+	cfg->BacklightControlPWM = readBuffer[readIndex+2];
+	cfg->BacklightCCFLPWM = readBuffer[readIndex+3];
+	cfg->BacklightConfig = readBuffer[readIndex+4];
+	cfg->BacklightPWMFrequency = readBuffer[readIndex+5] | (readBuffer[readIndex+6] << 8);
+
+
+CMD_SET_CONFIGDATA
+------------------
+Saves new configuration to flash.
+Explanation of values, see beginning from page 3: http://www.lcdinfo.com/usb13700/config_tool.pdf
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_SET_CONFIGDATA;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = cfg->Width & 0xff;
+	buffer[4] = (cfg->Width>>8) & 0xff;
+	buffer[5] = cfg->Height & 0xff;
+	buffer[6] = (cfg->Height>>8) & 0xff;
+	strcpy_s((char *)&buffer[7], 16, cfg->UserName);
+	buffer[23] = cfg->DispClkDiv & 0xff;
+	buffer[24] = cfg->FPSHIFTDiv & 0xff;
+	buffer[25] = cfg->BacklightControlPWM & 0xff;
+	buffer[26] = cfg->BacklightCCFLPWM & 0xff;
+	buffer[27] = cfg->BacklightConfig & 0xff;
+	buffer[28] = cfg->BacklightPWMFrequency & 0xff;
+	buffer[29] = (cfg->BacklightPWMFrequency>>8) & 0xff;
+	buffer[30] = cfg->TCRCRDiff & 0xff;
+	buffer[31] = (cfg->TCRCRDiff>>8) & 0xff;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_SET_CONFIGDATA
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+
+
+CMD_EXPORT_CONFIG
+-----------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_CONFIG;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = port0;
+	buffer[4] = port1;
+	buffer[5] = port0;
+	buffer[6] = port1;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_EXPORT_CONFIG
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+
+
+CMD_EXPORT_IO_CONFIG
+--------------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_IO_CONFIG;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = port0Dir;
+	buffer[4] = port1Dir;
+	buffer[5] = port0Dir;
+	buffer[6] = port1Dir;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_EXPORT_IO_CONFIG
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+
+
+CMD_EXPORT_IO_SET
+-----------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_IO_SET;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = port0Mask;
+	buffer[4] = port0;
+	buffer[5] = port1Mask;
+	buffer[6] = port1;
+
+No reply?
+
+
+CMD_EXPORT_IO_GET
+-----------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_IO_GET;
+	buffer[2] = MSG_COMMAND;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_EXPORT_IO_CONFIG
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+	*port0 = readBuffer[readIndex+3];
+	*port1 = readBuffer[readIndex+4];
+
+
+CMD_EXPORT_SPI_CONFIG
+---------------------
+http://www.lcdinfo.com/usb13700/documentation/api_html/display__lib___u_s_b13700_8h.html#c3ee522092464610f47860213d9470c2
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_SPI_CONFIG;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = cfg; /* (((cpha&0x01)<<7) | ((cpol&0x01)<<6) | ((frameFormat&0x03)<<4) | (frameLength&0x0F)) */
+	buffer[4] = bitclock;
+	buffer[5] = prescaler;
+	buffer[6] = ssel_mode;
+	buffer[7] = 0;
+	buffer[8] = 1;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_EXPORT_SPI_CONFIG
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+
+
+CMD_EXPORT_SPI_SEND
+-------------------
+http://www.lcdinfo.com/usb13700/documentation/api_html/display__lib___u_s_b13700_8h.html#4dc887dbbfc209b747841e2e6b6d9622
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_SPI_SEND;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = dataSize & 0xff;
+	buffer[4] = dataSize >> 8;
+	buffer[...] = data
+
+No reply?
+
+
+CMD_EXPORT_SPI_RECEIVE
+----------------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_SPI_RECEIVE;
+	buffer[2] = MSG_COMMAND;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_EXPORT_SPI_RECEIVE
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+	*rcvData = (unsigned int)readBuffer[readIndex+3] | (unsigned int)(readBuffer[readIndex+4]<<8);
+
+
+CMD_EXPORT_SPI_SETSSEL
+----------------------
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_EXPORT_SPI_SETSSEL;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = ssel & 0xff;
+	buffer[4] = 0;
+
+No reply?
+
+
+CMD_SET_S1D13700_CLK_DIV
+------------------------
+See page 4: http://www.lcdinfo.com/usb13700/config_tool.pdf
+
+Write:
+	buffer[0] = 0xfe;
+	buffer[1] = CMD_SET_S1D13700_CLK_DIV;
+	buffer[2] = MSG_COMMAND;
+	buffer[3] = DispClkDiv;
+	buffer[4] = FPShiftDiv;
+
+Successfull reply:
+	readBuffer[readIndex] == CMD_SET_S1D13700_CLK_DIV
+	readBuffer[readIndex+1] == MSG_REPLY
+	readBuffer[readIndex+2] == FW_CMD_SUCCESS
+
+
+
+
+CMD_WRITE_AREA
+--------------
+
+
+
+int write_area(usb_dev_handle *handle)
+{
+    unsigned char buffer[512];
+    unsigned int i;
+    unsigned int x=8;
+    unsigned int y=8;
+    unsigned int width=16;
+    unsigned int height=16;
+
+    buffer[0] = 0xfe;
+    buffer[1] = CMD_WRITE_AREA;
+    buffer[2] = MSG_COMMAND;
+    buffer[3] = x & 0xff;
+    buffer[4] = x >> 8;
+    buffer[5] = y & 0xff;
+    buffer[6] = y >> 8;
+    buffer[7] = width & 0xff;
+    buffer[8] = width >> 8;
+    buffer[9] = height & 0xff;
+    buffer[10] = height >> 8;
+    buffer[11] = 1; // select vertical or horizontal address increment 
+(0=h, 1=v) (to optimize speed depending of the width/height ratio of the 
+area)
+    buffer[12] = 0; // reserved
+
+    // some test data to buffer
+    for(i=13; i<2*16+13; i++)
+    {
+        buffer[i] = i;
+    }
+
+    if(usb_bulk_write(handle, EP_OUT, (char*)&buffer, i, 5000) != i)
+    {
+        return -1;
+    }
+
+    return 1;
+}

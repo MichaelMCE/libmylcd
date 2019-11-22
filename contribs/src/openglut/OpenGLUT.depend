@@ -1,0 +1,173 @@
+# depslib dependency file v1.0
+1097018772 source:k:\code\mylcd\contribs\src\openglut\src\og_callbacks.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1318347188 k:\code\mylcd\contribs\src\openglut\\config.h
+
+1354051402 k:\code\mylcd\contribs\src\openglut\include\gl\openglut.h
+	"openglut_std.h"
+	"openglut_ext.h"
+
+1097019772 k:\code\mylcd\contribs\src\openglut\include\gl\openglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1094867948 k:\code\mylcd\contribs\src\openglut\include\gl\openglut_ext.h
+
+1097019772 k:\code\mylcd\contribs\src\openglut\src\og_internal.h
+	<windows.h>
+	<windowsx.h>
+	<mmsystem.h>
+	<tchar.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<assert.h>
+	<math.h>
+	<setjmp.h>
+	<stdarg.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<GL/glx.h>
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/xf86vmode.h>
+	<unistd.h>
+	<sys/time.h>
+
+1318463852 source:k:\code\mylcd\contribs\src\openglut\src\og_cursor.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+	<X11/cursorfont.h>
+
+1094872282 source:k:\code\mylcd\contribs\src\openglut\src\og_display.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1094872282 source:k:\code\mylcd\contribs\src\openglut\src\og_ext.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097012400 source:k:\code\mylcd\contribs\src\openglut\src\og_font.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097012392 source:k:\code\mylcd\contribs\src\openglut\src\og_font_data.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097012424 source:k:\code\mylcd\contribs\src\openglut\src\og_gamemode.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097017400 source:k:\code\mylcd\contribs\src\openglut\src\og_geometry.c
+	"config.h"
+	<float.h>
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097012356 source:k:\code\mylcd\contribs\src\openglut\src\og_init.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097014108 source:k:\code\mylcd\contribs\src\openglut\src\og_joystick.c
+	<sys/param.h>
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+	<InputSprocket.h>
+	<mach/mach.h>
+	<IOKit/IOkitLib.h>
+	<IOKit/hid/IOHIDLib.h>
+	<windows.h>
+	<mmsystem.h>
+	<string.h>
+	<regstr.h>
+	<unistd.h>
+	<fcntl.h>
+	<errno.h>
+	<sys/ioctl.h>
+	<sys/joystick.h>
+	<machine/joystick.h>
+	<sys/ioctl.h>
+	<linux/joystick.h>
+	<usbhid.h>
+	<usb.h>
+	<libusbhid.h>
+	<usbhid.h>
+	<dev/usb/usb.h>
+	<dev/usb/usbhid.h>
+
+1097013672 source:k:\code\mylcd\contribs\src\openglut\src\og_main.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+	<limits.h>
+	<sys/types.h>
+	<sys/time.h>
+	<unistd.h>
+	<errno.h>
+	<sys/stat.h>
+	<gx.h>
+
+1097013388 source:k:\code\mylcd\contribs\src\openglut\src\og_menu.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1096973316 source:k:\code\mylcd\contribs\src\openglut\src\og_misc.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1094872284 source:k:\code\mylcd\contribs\src\openglut\src\og_overlay.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097012312 source:k:\code\mylcd\contribs\src\openglut\src\og_state.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1081451746 source:k:\code\mylcd\contribs\src\openglut\src\og_stroke_mono_roman.c
+	"og_internal.h"
+
+1081451746 source:k:\code\mylcd\contribs\src\openglut\src\og_stroke_roman.c
+	"og_internal.h"
+
+1097012300 source:k:\code\mylcd\contribs\src\openglut\src\og_structure.c
+	"config.h"
+	<GL/openglut.h>
+	<GL/openglut_exp.h>
+	"og_internal.h"
+
+1096973314 k:\code\mylcd\contribs\src\openglut\include\gl\openglut_exp.h
+
+1094872284 source:k:\code\mylcd\contribs\src\openglut\src\og_teapot.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1094872284 source:k:\code\mylcd\contribs\src\openglut\src\og_videoresize.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+
+1097012792 source:k:\code\mylcd\contribs\src\openglut\src\og_window.c
+	"config.h"
+	<GL/openglut.h>
+	"og_internal.h"
+	<aygshell.h>
+

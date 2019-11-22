@@ -1,0 +1,9 @@
+#! /bin/sh
+rm -f .error$$
+ERROR=0
+export PATH=/usr/win32/bin:/usr/win32/bin:.:/usr/local/bin:/mingw/bin:/bin:/h/WINNT/system32:/h/WINNT:/h/WINNT/System32/Wbem:/h/Program Files/ATI Technologies/ATI Control Panel:/h/KnownDLLs:/c/xblite/bin/ LANG=C
+(make V=1 $@ 2>&1 || touch .error$$)| \
+`sed -ne "s/^top_srcdir *= *//p" < Makefile`/extras/buildsystem/make.pl
+test -f .error$$ && ERROR=1
+rm -f .error$$
+exit $ERROR

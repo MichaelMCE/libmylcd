@@ -1,0 +1,50 @@
+
+
+MinGW:
+Enable or disable various options within 'mylcdconfig.h' to suit your requirements.
+External libraries needed to build with all options enabled: libusb0, pthreads, libjpeg, libpng (and zlib), libSDL and libFTDI.
+
+If MinGW environment variables are not set then modify and use gccpath.bat to set.
+
+Use makefile 'makefile.gcc' to build.
+ make -f makeifle.gcc all <target> <option(s)> 
+eg:
+ make -f makeifle.gcc all install DEBUG=0 PNG=1
+This will build 'mylcd.dll' along with the import file 'libmylcd.a'
+and static library 'libmylcdstatic.a' without debug symbols.
+
+Targets:
+	dll		Build shared library only
+	static		Build static library only
+	all		Build everything
+	clean		Removes all objects and target files
+	install		Copy library to the location set by INSTALL
+
+Options:
+	DEBUG		Compile with debug symbols and other miscellaneous data.
+	DEBUGMEM	General memory debugger and leak finder. Requires DEBUG=1
+	DEBUGFILEIO	Print file IO requests (with filepaths and returned fp handles) to stdout. Requires DEBUG=1
+	LGLCD		Link to lglcd.dll. lglcd.dll is a wrapper around Logitech's static SDK lib lglcd.lib
+	SDL		Link SDL
+	PNG		Link with libpng.a
+	JPG		Link with libJpeg.a
+	WIN64		Build a native 64bit binary.
+	MMX1		Use MMX where available.
+	SSE		Use SSE where available.
+	INSTALL		Sets install location. Default is "../examples". eg; INSTALL="e:\path\to\somewhere"
+
+
+A Code::BLocks project file has been included in extra/
+
+
+MSYS+MinGW GCC 4.x:
+ Building libmylcd through MSYS:
+Set compile options in mylcdconfig.h then enter in a bash console:
+	./bootstrap
+	./configure
+	make
+	make install (copies mylcd.dll/libmylcd.dll to examples/)
+	
+
+Grab the libmylcd bin package to acquire the TGA and BDF fonts.
+

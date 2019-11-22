@@ -1,0 +1,819 @@
+
+
+
+
+v1.0.0
+---
+Initial Release
+
+
+---
+v0.80.0
+
+Added intrinsic support for loading, saving and minipulation of 32bit images with an alpha channel.
+Added surface type LFRM_BPP_32A - 32bit with alpha channel. This differs from LFRM_BPP_32 in that LFRM_BPP_32 does not respect the alpha channel.
+Added auto image type detection when loading images.
+Added:
+ lNewImage()	- Creates a new surface, loads image on to this then returns its handle.
+ lLoadImageEx()	- Load image on to exisiting surface at location x,y.
+.... and lots of other stuff
+	
+
+Modified:
+ lLoadImage()	- Removed arguments 'style' and 'image type'. Image type is now automaically detected.
+
+Examples added:
+ alpha.c	- Using lNewImage(), lLoadImageEx() and lLoadImage() with 32bit images.
+ svmem.c	- A plugin for VLC which exports the video stream through a Windows memory file map.
+ scmem.c	- Displaying video using the VLC plugin 'Shared video memory'.
+ filter.c	- Generic image filtering.
+ roto.c		- Rotating images.
+ star.c		- A 'Stars' effect.
+ morph.c	- Particle based image morphing.
+ 
+
+ removed arugument style from lCopyFrame()
+---
+
+v0.60.0 30'th of June 2009
+
+libmylcd 0.60.0 sees the introduction of multiple bitdepth full colour surface support.
+New bit depths available include 8/RGB332, 12/RGB444, 15/RGB555, 16/RGB565, 24/RGB888 and 32/ARGB8888 bits per pixel.
+
+SDL and DDraw virtual displays updated to support multiple full colour windows.
+Added JPG image loading suppport, use flag 'IMG_JPG'.
+All API path inputs now wide character only (UTF16).
+Rewrote BDF file handling improving performance while resolving a few font related issues.
+Added BDF font 6x8-cp437.bdf (LFTW_6x8_CP437).
+All BDF fonts now contain a default character.
+BDF font wenquanyi_9pt.bdf updated to latest revision.
+Added API synchronization support.
+Added experimental support for MMX.
+Use '__BUILD_APISYNC_SUPPORT__' to enable and '__BUILD_PTHREADS_SUPPORT__' to select pthreads (pthreadGC2.dll) or the MS Windows API.
+Moved Code::Blocks project file to extras/
+lSaveImage() will save image at frame dimension when width and height are 0.
+libmylcd should now be fully compliant with c99 C standard.
+Per surface pixel data operations are now available through surface->pixel->xxx()
+Operations available:
+ surface->pixel->set(frm, x, y, clr)		: Set value at location x,y
+ surface->pixel->set_NB(frm, x, y, clr)		: As above but do not perform a bound check
+ surface->pixel->set_NBr(frm, x, row, clr)	: As above, row = y*pitch
+ surface->pixel->get(frm, x, y)			: Get value at location x,y
+ surface->pixel->get_NB(frm, x, y)		: As above but do not perform a bound check
+ surface->pixel->get_NBr(frm, x, row)		: As above, row = y*pitch
+ surface->pixel->setf(frm, x, y, r, g, b)	: Set floating point colour (0.0 to 1.0) by component at location x,y
+ surface->pixel->getf(frm, x, y, r, g, b)	: Get floating point colour component values at location x,y
+ surface->pixel->getAddr(frm, x, y)		: Get address of pixel at location x,y.
+ 						  Some locations may share the same address as is the case with LFRM_BPP_1.
+
+
+Added support for:
+ USBD480	- Hi-Speed USB colour LCD controller (available from www.lcdinfo.com).
+ USB13700	- USB S1D13700 based LCD controller (available  from www.lcdinfo.com).
+ USB13700EXP	- USB Configurable 8bit I/O and SPI port.
+ S1D15G14	- Nokia 3510 colour. Supports 12 and 8bpp, SPI and SIO.
+ PCF8814	- Nokia 3510 mono. Supports 1bpp, SPI and SIO.
+ PCF8833	- Colour Nokia 6100, 6610, 7210, etc.. (usually 130x130). Supports 16, 12 and 8bpp, and SPI.
+ S1D15G10	- S1D15G00/10. Colour Nokia 6100, 6610, 7210, etc.. (usually 130x130). Supports 12 and 8bpp, and SPI.
+ G15:libusb	- G15 accessed directly via libusb. Logitech driver software not required.
+ G19		- LCD of the Logitech G19 keyboard.
+ libftdi	- Port driver for driving displays through FTDI devices.
+
+ 
+Added:
+ lOpenLibrary()			- Initialize library.
+ lCloseLibrary()		- Shutdown library.
+ lCloseDevice()			- Shutdown an activated display
+ lRefreshAsync()		- Asynchronous (non-blocking) display update method.
+ lUpdate()			- Draw user buffer directly to display.
+ lDrawTriangle()		- Draw a triangle.
+ lDrawTriangleFilled()		- Draw a filled triangle.
+ lClearFrameClr()		- Fill frame with specified colour.
+ lS/GetForegroundColour() 	- Set ink colour of primitive and print operations.
+ lS/GetBackgroundColour()	- Set background colour of primitive and print operations.
+ lS/GetPixel_NB()		- Set or get pixel value without performing a within bounds check.
+ lS/GetPixel_NBr()		- As above but passing the row address offset in place of y. (row = y*pitch)
+ lS/GetPixelWriteMode()		- Set pixel write operation type (LSP_SET, LSP_XOR, etc..).
+ lGetPixelAddress()		- Get memory address of pixel.
+ lCopyAreaA()			- Copy area with alpha blending.
+ lDrawMaskA()			- Draw masked src on to des with alpha blending.
+ lDrawMaskAEx()			- Draw masked src area on to des with alpha.
+ lFrame1BPPToRGB()		- Convert a 1bpp frame (LFRM_BPP_1) to another format.
+ lGetRGBMask()			- Get bit mask of colour for supplied frame (LMASK_RED, LMASK_BLUE, etc..)
+ lFloodFill()			- Fill area by colour at point x,y with fillColour.
+ lEdgeFill()			- Fill area enclosed by edgeColour with fillColour.
+ l_realloc(), l_calloc(), l_malloc(), l_strdup(), l_wcsdup() and l_free() - Refer to src/mylcdmemory.h for details.
+
+Removed:
+lCopyBytes()	(Never found a use for it)
+
+Examples added:
+ hello.c		- Hello world.
+ enumfonts.c		- Lists font Id's with expected path location.
+ wolf3d.c		- A colour ray caster.
+ txt2img.c		- A text to image generator.
+ screencap.c		- Stream destop, GDI objects or windows to display. MS Windows only.
+ usbd480BL.c		- Shows how to use display controller specific options.
+ contrast.c		- As above with the PCF8833 controller.
+ touch.c		- Shows how to use a driver specific interface, in this case a function callback.
+ imagetest.c		- 12, 16, and 24bpp image loading and display test.
+ glyphframes.c		- Using the lGetGlyph() API.
+ frame2h.c		- A frame to C header converter. Submitted by Hung Ki Chan.
+ gimpbitmap.c		- Loading GIMP created bitmap arrays.
+ floatingpoint.c	- An example of using the floating point colour api.
+ mmx.c			- Comparing various set pixel methods and MMX.
+ fire.c			- Small fire effect demo.
+ floodfill1.c		- An example of using lFloodFill() and rotation.
+ floodfill2.c		- Testing lFloodFill().
+ edgefill.c		- An example of using lEdgeFill().
+ mask1.c		- Using lDrawMask(), lGetRGBMask().
+ mask2.c		- As above with animation.
+ clocx/ClocXPlugin	- An output plugin for ClocX - www.clocx.com
+ VLC/VLCStream		- A libvlc based media player with touch input control
+ VLC/usbd480_plugin.c	- A VLC video out module for libmylcd. Configured for the USBD480.
+ VLC/g19_plugin.c	- A VLC video out module configured for the G19 keyboard.
+ OpenGL/...		- Various OpenGL demos.
+			  Shows how to capture an OpenGL context (pixel buffer) for display thorugh libmylcd.
+
+AAinfo/AAinfo.c updated to use touch input for control.
+
+
+Display options added:
+ lOPT_PCF8833_CONTRAST		- Set contrast. Range: 0-63.
+ lOPT_S1D15G10_CONTRAST		- Set contrast. Range: coarse 0-63, fine 0-7. set via ((coarse<<8)|fine).
+ lOPT_S1D15G14_CONTRAST		- Set contrast. Range: 0-127.
+ lOPT_U13700D_STRUCT		- Get pointer to internal structure.
+ lOPT_SDL_STRUCT		- As above.
+ lOPT_PCF8814_CS		- Unused: TODO: Set chip select line, see 'pcd8814_spi.h' for details
+ lOPT_PCF8814_HFLIP		- Flip display.
+ lOPT_PCF8814_INVERT		- Invert output.
+ lOPT_PCF8814_STRUCT		- Get pointer to internal structure.
+ lOPT_USB13700EXP_STRUCT	- Get pointer to internal structure.
+ lOPT_USB13700EXP_FRMLENGTH	- Refer to display_lib_USB13700.h for details.
+ lOPT_USB13700EXP_CLKPOL	- As above
+ lOPT_USB13700EXP_CLKPHASE	- As above
+ lOPT_USB13700EXP_BITCLOCK	- As above
+ lOPT_USB13700EXP_PRESCALER	- As above. Bitrate is calculated using formula: 60000000/(prescaler*[bitclock+1])
+ lOPT_USBD480_STRUCT		- Get pointer to internal structure.
+ lOPT_USBD480_BRIGHTNESS	- Set backlight brightness level between 0 and 255
+ lOPT_USBD480_TOUCHPOSITION	- Returns touch position on to a TTOUCHCOORD structure.
+ lOPT_USBD480_TOUCHCB		- Initiate and set asynchronous touch handling. View examples/touch.c for details.
+ lOPT_USBD480_TOUCHCBUSERPTR	- Set 32bit value which is passed with each of the above callbacks.
+ lOPT_G15LU_STRUCT		- Get pointer to TMYLCDG15 struct, see irc.c and g15/g15display.h for more details
+ lOPT_G15LU_SOFTKEYCB		- Soft button call back, irc.c for an example of use.
+ lOPT_G15LU_MLEDS		- Set LED state.
+ lOPT_G15LU_KBBRIGHTNESS	- Set KB LED level.
+ lOPT_G15LU_LCDBRIGHTNESS	- Set LCD brightness.
+ lOPT_G15LU_LCDCONTRAST		- Set LCD contrast.
+ lOPT_FTDI_STRUCT		- TODO: get internal stucture pointer.
+ lOPT_FTDI_DEVICE		- TODO: USB FTDI device index. 0=first device, 1=second and so on
+ lOPT_FTDI_BAUDRATE		- Adjust device baudrate.
+ lOPT_FTDI_BITBANG		- Switch bit bang mode on or off (0/1)
+ lOPT_FTDI_LATENCY		- Set receive buffer latency timer from 2ms to 255ms in 1ms intervals
+ lOPT_FTDI_IODIR		- Set direction of the 8bit data bus under bit bang mode. See FT245BM datasheet for details
+ lOPT_G19_STRUCT		- Get pointer to TMYLCDG19 struct. g19/g19display.h for details
+ lOPT_G19_SOFTKEYCB		- Soft button call back, irc.c for an example of use
+ lOPT_G19_PRIORITY		- Set sync/async refresh mode
+
+lots of other stuff...
+
+---
+v0.30.4 17'th of May 2007
+
+
+SED1565 Parallel interface driver added, submitted by Philipp Leusmann.
+SED1565 device name renamed to 'SED1565:S' for serial interface and 'SED1565:P' for parallel interface.
+
+BDF text alignment renderer reimplemented, allowing myLCD now supports multiple line alignment.
+Four further text rendering alignment methods added: PF_VERTICALRTL, PF_VERTICALLTR and PF_HORIZONTALRTL.
+PF_VERTICALRTL will render text vertically, top to bottom, from right side to left.
+PF_VERTICALLTR will render vertically, top to bottom, from left to right.
+PF_HORIZONTALRTL will render from right to left, justified to the right.
+PF_VERTICALRTL/LTR and PF_HORIZONTALRTL are intended for use with Asian (CJKV) texts.
+
+Print flag PF_DISABLECHARCOMB removed, instead use lCombinedCharEnable() and lCombinedCharDisable()
+Print flag PF_INVERTGLYPH renamed to PF_INVERTGLYPH1.
+Added print flag PF_INVERTGLYPH2. Inverts glyph by two pixels wider than PF_INVERTGLYPH1.
+
+Added scroll resource cleanup on exit.
+
+DDraw virtual display code rewritten, myLCD now supports multiple DDraw windows. Refer to examples/m_config.cfg
+Use driver option lOPT_DDRAW_STRUCT to return a per window structure (TMYLCDDDRAW from src/ddraw/ddraw.h)
+containing the various window handles, useful for subclassing each window.
+Added 50% zoom to DDraw displays.
+
+Added ability to rotate and flip glyph (during rendering) and the option of using an external glyph rendering method.
+Use lSetRenderDirection(hw, ltr_mode)
+modes are:
+LTR_0			straight glyph copy
+LTR_90			glyph rotated by 90§
+LTR_90VFLIP		glyph rotated by 90§ and flipped vertically
+LTR_180			glyph rotated by 180§
+LTR_270			glyph rotated by 270§
+LTR_270VFLIP	glyph rotated by 270§ and flipped vertically
+LTR_HFLIP		glyph flipped horizontally
+LTR_VFLIP		glyph flipped vertically
+Refer examples/trenderfilter.c for a usage example.
+
+
+Added support for the following language encodings:-
+HZ-GB2312, ISO-2022-KR (KSX1001), EUC-KR, JISX0208/EUC-JP, EUC-TW, EUC-CN, Shift JIS, ISO-2022-JP,
+JISX0201/JIS 8bit, KOI8-R and KOI8-U. Added a few CP_nnn tables also.
+
+Further improved GB18030, UTF8 and UTF16 support.
+CMT_UTF16 now auto detects between little and big endian via BOM.
+Use either CMT_UTF16LE or CMT_UTF16BE to force a specific endian.
+
+Removed: CMT_KOREAN_EUC_K, CMT_GB2312_1980_SGB and CMT_DBCS.
+Added: CMT_GB1988, CMT_SYMBOL, CMT_DINGBATS, CMT_KOI8_R, CMT_KOI8_U, CMT_GBK (CP936), CMT_ISO2022_JP,
+CMT_JISX0208/CMT_EUC_JP, CMT_JISX0201, CMT_EUC_TW and CMT_EUC_CN.
+CMT_UTF16LE, CMT_UTF16BE, CMT_HZ_GB2312, CMT_EUC_KR, CMT_ISO2022_KR and CMT_AUTO_JP.
+CMT_AUTO_JP is limited to the l[Print]List API.
+
+Added ability to enumerate languages tables via lEnumLanguageTables() and to look up encoding Id from alias via
+lEncodingAliasToID(). See example/enumlang.c for further details.
+
+Fonts added: LFTW_MONAU16, LFTW_MONAU14, LFTW_MONA8X16A, LFTW_MONA7X14A and LFTW_18x18KO.
+MONA fonts supplied by http://monafont.sourceforge.net for use with Shift art (SJIS).
+
+Examples added:
+trenderfilter.c	- shows how to redirect the glyph render func.
+bdfglyph.c		- glyph viewer for BDF fonts.
+aainfo.c		- Armed Assault server browser.
+q2info.c		- shows how to retrieve and display stats from a game server.
+fraps.c			- Fraps plugin. Displays current FPS and game title.
+enumlang.c		- shows how to enumerate through the character encodings.
+chip8.c			- chip8 and super chip8 emulator.
+
+Examples updated:
+wa.c			- added multiple pages including track selection, bandwidth, system info and more.
+irc.c			- added a userlist display screen.
+tgatest.c		- updated to allow enumeration by width, 'tgatest.exe -w' to use.
+bdftest.c		- updated to allow enumeration by width, 'bdftest.exe -w' to use.
+filerender.c	- addded more encoding examples
+
+Examples can now use a configuration file to manage display selection, refer to demos.h and config.cfg and /configs/
+This allows display(s) to be selected at runtime, via config.cfg.
+Example config files added to examples/configs/.
+These should be placed in the executable directory and renamed to 'config.cfg'
+
+Text width returned by lGetTextMerics() can be given an upper limit by setting rect.bx2 before calling.
+Refer to /examples/filerender.c for an example of this.
+
+Added ability to lookup driver ID of an activated display from driver name;
+eg; lDISPLAY dID = lDriverNameToID(hw, "G15", LDRV_DISPLAY);
+lDISPLAY type changed from 'int' to 'unsigned int'
+
+Added a floating point Set/Get pixel API, pixel buffer format remains unchanged (1bpp).
+X and Y must range from 0.0 to 1.0, as there are no internal checks to ensure this.
+lSetPixelf(TFRAME *frm, float x, float y, int style) - set pixel state.
+lGetPixelf(TFRAME *frm, float x, float y) - return pixel state.
+eg: lSetPixelf(frame, 0.02, 0.10, LSP_SET)
+
+Added API:
+lEnumLanguageTables()
+lCombinedCharEnable()
+lCombinedCharDisable()
+lDriverNameToID()
+lSetRenderDirection()
+lSetPixelf()
+lGetPixelf()
+
+Removed API:
+lSetFontScale()
+lGetFontScale()
+
+
+.. number of bug fixes, code tiding and miscellaneous optimizations.
+
+
+myLCD now falls under the library general public license.
+
+
+---
+v0.30.2 13'th of November 2006
+
+Added display support for the 160x43 Logitech G15 keyboard LCD.
+Win32 only. requires LCDMon.exe to be running and without any other G15 display application.
+See demos.h activation details along with demos irc.c and wa.c for details on how to process the soft buttons.
+
+Implemented a source image [frame] buffer in to the image scroll processer.
+No longer must a copy of the source image be visible on the frontbuffer.
+Use 'lDrawScroll(hScroll)' to update distination frame from (internal) source frame without updating position.
+
+Added example wa.c. This is the newly coded Winamp plugin. vis_wamp.c (vis_wamp.dll) has also been updated.
+Example winamp.c has been removed.
+Added example irc.c. This is an IRC client/bot written with the Logitech G15 keyboard in mind.
+View 'examples/irc/readme.txt' for details on bot usage.
+
+Resolved corruption of saved TGA images.
+Maximum width and height of a TGA image is now limited to 65535 pixels. 65535 is a limitation of the TGA format.
+Added word wrap ability to the text renderer, use flag PF_WORDWRAP to enable.
+lMergeFont() has been re-enstated. Refer to clock.c for an example of use.
+Bug resolved which was preventing the location of the character map files from being set at runtime.
+8859 map files have been modified to include a lookup for the Euro (€) symbol.
+
+Added defines for the TGA font pack, use '__USE_TGAFONTPACK1__' to enable/disable. Refer mylcd.h for details.
+Auto width and height calculations can now be performed on bitmap font images (TGA) to simplify registering.
+
+
+API Function(s) added:
+MYLCD_EXPORT int lDrawScroll (TLSCROLLEX *scroll)
+
+---
+v0.30.0 8'th of September 2006
+
+
+Added multiple display support along with an upgraded display driver model, this allows myLCD to simultaneously drive multiple displays.
+with the new display driver model, each active display lays claim to a single rectangular area within a frame, complete frame.
+myLCD then confines display updates to specified area.
+A display may claim an area allocated to another display and if the previous display has not claimed sole allocation.
+Displays are limited to one rectangle.
+eg:
+With a 256x64 frame myLCD can be configured to drive 2x 128x64 displays (1/2 frame per display)
+in tandem with a 256x64 virtual display. This amounts to three displays with neither aware of the other.
+
+
+Display and port driver interface has been rewritten.
+Gone are lWritePort(), lReadPort(), etc..
+As each display contains a seperate (or shared) glue (port) interface, writing to muiltiple devices becomes possible.
+ie;
+	lDISPLAY id = lSelectDevice(hw, etc..);		// activate device, returns display index
+	TDRIVER *drv = lDisplayIDToDriver(hw, id);	// get its handle
+
+	drv->pd->write8(port, data);			// 8bit writes
+	drv->pd->write16(port, data);			// legacy 16bit writes. To be removed.
+	drv->pd->write32(port, data);			// legacy 32bit writes. To be removed.
+	drv->pd->writeBuffer(port, buffer, size);	// useful when an exact transfer size is required.
+	drv->pd->flush(drv->pd);			// useful with streaming devices like the USB FT245.
+	drv->pd->read(port, data);			// 8bit reads
+View the various drivers along with demos.h for further information.
+
+Added a TCP/IP display bridge. This can allow myLCD to drive displays in remote locations.
+Use with the networkclient.c (an example of bridge usage). View demos.h for setup details.
+
+Added an FT245xx USB driver, using the FTDI D2XX API (Win32). Tested with the FT245BM chip.
+Ideal for serial displays like the PCD8544 based Nokia's
+Added an S1D15G14 display driver for the Nokia 3510i LCD. Colour support within myLCD has still to be implemented.
+Added a SED1335 display driver. Driver supports mutliple layers but does not support text layers.
+
+Added a T6963C display driver.
+myLCD T6963C driver supports 8bit wide columns only, so Font Select (FS) pin of the T6963C must be tied to GND.
+As myLCD does not support character LCD's the text (cg-rom/ram) mode is unsupported, as a result text overlays are not
+directly possible within myLCD. T6963 driver does not support frame area refreshing, calls to lRefreshArea() are remapped to lRefresh().
+This shouldn't an issue as over 95 full frames per second (240x64) have been recorded with the 'mystify.c' example.
+
+SED1565 driver has been optimized and tested with the Nokia 7110 LCD.
+
+Added a Code:Blocks project file to the DevC++ directory.
+
+Makefiles rewritten, display and port targets no longer need be specified.
+config.h is now used to configure myLCD's compile time options.
+
+Files added: device.c/h, display.c/h, config.h, netdisplay.c/h, net.c/h, ft245.c/h,
+	netport.c/h, mylcd.cbp, nokia3510i.c/h, log.c/h, trail.c, trail2.c
+
+
+Added examples:
+	networkclient.c - remote network client
+	enumdrv.c - enumerates registered drivers
+	trail.c - a variation on the mystify theme
+	trail2.c - a variation of trail.c
+
+Example file clock.c rewritten specifically for 320x240 displays, therefore requires a 320x240 display for best results.
+
+Note: examples should be configured in 'demos.h' before compiling.
+
+	
+Functions added:
+lDISPLAY lSelectDevice (THWD *hw, ubyte *displayName, ubyte *portName, int width, int height, int bpp, int port, TRECT *rect);
+int lSetDisplayOption (THWD *hw, lDISPLAY display, int lopt_option, int value);
+int lGetDisplayOption (THWD *hw, lDISPLAY display, int lopt_option, int *value);
+TDRIVER *lDisplayIDToDriver (THWD *hw, lDISPLAY display);
+int lPauseDisplay (THWD *hw, lDISPLAY display);			// suspend all display updates
+int lResumeDisplay (THWD *hw, lDISPLAY display);		// resume display updates
+TREGDRV *lEnumerateDriversBegin (int ledrv_type);
+int lEnumerateDriverNext (TREGDRV *d);
+int lEnumerateDriverEnd (TREGDRV *d);
+void lDrawPolyLineEx (TFRAME *frm, TLPOINTEX *pt, int tLines, int lsp_style);
+
+
+Display options added:
+lOPT_PCD8544_CS		sets chip select lines, see 'pcd8544.h'
+lOPT_PCD8544_HFLIP	0:1
+lOPT_PCD8544_INVERT 	0:1
+lOPT_SED1565_HFLIP	0:1
+lOPT_LEDCARD_MODE	0:1 (FIXED/SCROLL)
+lOPT_KS0108_DELAY	delay between writes to controller, unit is microseconds.
+			increase if display image is corrupt.
+			eg; drv->dd->setOption(drv, lOPT_KS0108_DELAY, 3)
+lOPT_T6963C_DELAY	as above
+lOPT_SED1335_DELAY	as above
+lOPT_SED1335_XTAL	sed1335 crystal. Adjusting XTAL speed will restart controller
+lOPT_SED1335_TLAYER	total layers. defaults to 1. Adjusting TLAYER's cause a controller restart
+lOPT_SED1335_ALAYER	active layer. defaults to first layer, ie, layer '0' 
+
+lOPT_NET_ADDRESS	set host address
+lOPT_NET_PORT		set host port
+lOPT_NET_CONN		maintains socket handle
+lOPT_NET_DISPLAYDRV	set remote display driver
+lOPT_NET_PORTDRV	set remote port driver
+lOPT_NET_DWIDTH		set remote display width
+lOPT_NET_DHEIGHT	set remote display height
+lOPT_NET_DPORT		set remote port access address
+
+lOPT_FT245_BAUDRATE 	adjust ft245 baudrate
+lOPT_FT245_DIVISOR	set devisor for non standard baudrates
+lOPT_FT245_BITBANG	switch bit bang mode on or off (0/1)
+lOPT_FT245_LATENCY	set receive buffer latency timer from 2ms to 255ms in 1ms intervals
+lOPT_FT245_IODIR	set direction of the 8bit data bus under bit bang mode. See FT245BM datasheet for details
+
+
+Printing outside of region bug fixed with the extended print API.
+
+---
+
+v0.20.3 14'th of May 2006
+
+
+Exported functions added:
+(view mylcd.h for details)
+void lHTMLCharRefEnable();
+void lHTMLCharRefDisable();
+void *lFontIDToFont (int fontid);
+int lSetFontLineSpacing (int fontid, int pixels);
+int lGetFontLineSpacing (int fontid);
+int lFlipFrame (TFRAME *src_in, TFRAME *des_in, int ff_flag); // destination frame size must equal source size
+
+Implemented Tab (0x09) character handling, use the lTabSpaceWidth define (mylcd.h) to set number
+of replacement characters per tab and lTabSpaceChar to select the replacement character.
+Print flag PF_HTMLCHARREF removed, use lHTMLCharRefEnable()/Disable() in place.
+
+Text metrics API now accepts print control flags (PF_).
+Examples makefile for the PSP modified to link libmylcd.a instead of liblcd.a.
+lGetTextMetricsList() now accepts TLPRINTR structs in place of width and height variables.
+Minumum and maximum rendering coordinates are now placed in to bx1 through to by2
+
+Added examples:
+  filerender.c - an example of rendering text files
+  bdfdump.c - converts a .bdf font file to a bitmap
+  supports.c - printfs capabilities features
+  plasma.c - small benchmark
+  mystify.c - a screensaver type demo donated by Hung Ki Chan.
+  ray.c. - small 3d raycaster demo
+
+Added preliminary unicode character combining support.
+Added TIS620 (Thai) encoding support, use CMT_TIS620.
+Added JISX0213 (Japanese) encoding support, use CMT_JISX0213.
+Added adjustable line space per line wrap on a per font basis. Use mylcd.h define 'lLineSpaceHeight'
+to set default value at compile time, lSetFontLineSpacing() and lGetFontLineSpacing() at runtime.
+Added a catch [all] for required BDF fields which are either missing or incomplete.
+
+Added a display driver for the SED1565 LCD controller, which as of 08/05/2006 is untested.
+Added a display driver for the PCD8544 LCD controller. PCD8544 controllers are found in Nokia 3310,
+3210, 8210, 8250, 5210, 6210, 5110 and many others. Driver has been tested with an 8210, 3310, and a 5210.
+Note: 5210 displays are addressed 'right to left' as opposed to 'left to right' of the 8210 and co.
+CAP flag 'CAP_PCD8544_FLIPH' should be used when dealing with 5210's
+
+Windows makefile has been reorganized, building myLCD now requires two targets to be specified at compile time;
+the port driver and display driver. ie, 'make -f makefile.win portdriver displaydriver'
+eg; 'make -f makefile.win winio pcd8544 install'
+
+Implemented a proof of concept event driven GUI API (mylcd/src/gui/). UI is disabled by default but can be
+enabled via mylcd.h.
+GUI Example text.c and mouseserver.c added to mylcd/examples/window/
+
+Default pixel bit depth has been reduced from 8bits wide to 1bit, core pixel manipulation routines have been moved
+from 'pixel.c' to 'pixel.h' to further take advantage of 'static inline', resulting is imporved 'render to buffer' time
+
+Added a standalone driver for the VLCM12864, acquired in a Hong Kong electonics hardware store.
+The VLCM12864 a 128x64 KS0108 display with a serially controlled piggedbacked MPU (8051).
+Check 'mylcd/examples/vlcm/' for details.
+
+..various bug fixes here and there.
+
+---
+
+v0.20.0	6'th of March 2006
+
+
+Added makefiles and a display driver for the Sony PlayStation Portable (PSP)
+
+Exported functions added:
+(view mylcd.h for details)
+int lCountCharacters (ubyte *str);
+int lCreateCharacterList (ubyte *str, unsigned int *glist, int total);
+int lStripCharacterList (unsigned int *glist, int gtotal, TWFONT *font);
+int lCacheCharacterRange (unsigned int min, unsigned int max, int fontid);
+int lCacheCharacterList (unsigned int *glist, int gtotal, int fontid);
+int lCacheCharacterBuffer (unsigned int *glist, int gtotal, int fontid);
+int lCacheCharacters (ubyte *str, int fontid);
+int lCacheCharactersAll (int fontid);
+int lGetTextMetricsList (unsigned int *glist, int first, int last, int fontid, int *width, int *height);
+int lPrintList (TFRAME *frm, unsigned int *glist, int first, int total, TLPRINTR *rect, int font, int flags, int style);
+int lDecodeChararacterCode (ubyte *str, unsigned int *chrout);
+int lDecodeCharacterBuffer (ubyte *str, unsigned int *glist, int total);
+int lSetFontCharacterSpacing (int pixels, int fontid);
+int lGetFontCharacterSpacing (int fontid);
+int lSetCapabilities (THWD *hw, unsigned int flag, int value);
+int lGetCapabilities (THWD *hw, unsigned int flag);
+int lGetImageBoundingBox (TFRAME *frame, TLPOINTEX *p);
+int lDrawMask (TFRAME *src, TFRAME *mask, TFRAME *des, int maskXOffset, int maskYOffset, int lmask_mode);
+unsigned int lConvertFrameTo1BPP (TFRAME *frame, void *des);
+unsigned int lConvertFrameTo8BPP (TFRAME *frame, void *des, const ubyte clrLow, const ubyte clrHigh);
+unsigned int lConvertFrameToRGB4444 (TFRAME *frame, void *des, const int clrLow, const int clrHigh);
+unsigned int lConvertFrameToRGB555 (TFRAME *frame, void *des, const int clrLow, const int clrHigh);
+unsigned int lConvertFrameToRGB565 (TFRAME *frame, void *des, const int clrLow, const int clrHigh);
+unsigned int lConvertFrameToRGB888 (TFRAME *frame, void *des, const int clrLow, const int clrHigh);
+unsigned int lConvertFrameToRGB8888 (TFRAME *frame, void *des, const int clrLow, const int clrHigh);
+
+Wide character renderer completely rewritten;
+ 1) To removed the requirement for fonts to be built in their full, reducing memory overhead
+ 2) To fix the problem whereby input strings needed to be decoded on each pass.
+ 3) To allow greater control over the rendering process.
+
+Instead input strings are decoded once on entry, only requested glyphs are loaded and built, unsupported code points marked.
+Decoded buffer is then used throughout the rendering pipeline with the end result of decreased rendering time.
+
+
+struct 'TLCD' renamed to 'TFRAME'
+Added PNG image suppport, use flag 'IMG_PNG'.
+Added GB18030 character support
+Added BDF fonts: b10.bdf, screen8x16.bdf, proof9x16.bdf, koinil2.bdf, koi9x18.bdf,
+      koi7x14.bdf, koi5x8.bdf, koi12x24b.bdf and koi10x20.bdf
+Linked library renamed from 'lcddll.dll' to 'mylcd.dll'
+Included header renamed  from 'lcd.h' to 'mylcd.h'
+
+... and many more optimizations and code tidying too numerous to mention.
+      
+Example files added: big5.c, masks.c and glyphs.c
+
+
+---
+
+0.19.7	18'th of December 2005
+
+Unicode-UTF8 implementation mostly completed, refer to new example unicode.c for more details.
+Use 'lSetCharacterEncoding(CMT_UTF8)' (renamed from lSetCharacterMap) to select UTF8 encoding, CMT_ASCII/CMT_NONE - none,
+CMT_BIG5 & CMT_BG2312 for double byte character encoding (wide char) or register another map with 'lRegisterCharacterMap()'.
+Added 'lGetCharacterEncoding()'.
+Added 'unregisterFrameGroup()' to frame.h
+Modified in 'frame.h' the frame handling interface to allow [registered] frames to be categorized in to groups. The purpose
+of this is to aid the selection of all frames relating to a particular task or handle. The beneficial feature of this is to
+allow each font, when built, to group its characters (which are themselves frames) via a common id. This allows myLCD to
+quickly delete all frames via the common ID as opposed to searching the list container on a per frame basis.
+As a few of the BDF fonts contain over 30,000 characters this has resulted in a large performance increase.
+Wide character printing (BDF LFTW_) now defaults to the specified default character of the font in place of
+unsupported characters. Use flag 'PF_NODEFAULTCHAR' to disable.
+Text is rendered left To right by default. right to left is not planned, top to bottom is planned.
+
+PF_DRAWTEXT flag removed, text is now rendered by default, use PF_DONTRENDER to disable rendering.
+Other lPrintEX flags added are:
+PF_NODEFAULTCHAR	don't use font-defined default char inplace of a missing char (BDF wide char only)
+PF_FIXEDWIDTH		set fixed width printing
+PF_USELASTX		use x end point as next start point
+PF_NEWLINE		use y end point as next start point (an alias for PF_USELASTY)
+PF_USELASTXY		PF_USELASTX|PF_NEWLINE
+PF_RESETX		[re]set x start point to bx1 bounding point
+PF_RESETY		[re]set y start point to by1 bounding point
+PF_RESETXY		PF_RESETX|PF_RESETY
+PF_LEFTJUSTIFY		text is left justified by default
+PF_MIDDLEJUSTIFY	middle justify text
+PF_RIGHTJUSTIFY		right justify text. Justifing is still work in progress.
+PF_HTMLCHARREF		enable HTML character and entity references, eg; "&#36215;", "&Epsilon;", etc..
+PF_DISABLEAUTOWIDTH	disables wide character (bdf) auto width calculation, is overriden by 'PF_FIXEDWIDTH'
+PF_GLYPHBOUNDINGBOX	enclose each glyph within a rectangle, is not overridden by 'PF_DONTRENDER'
+PF_TEXTBOUNDINGBOX	as above but draws a rectangle around text area.
+PF_INVERTTEXTRECT	invert text rectangle area.
+
+Added lstring.c/h. (Intent is to wrap all system calls to aid portability.)
+Updated ks0108.c, unrolled a few loops to improve performance.
+KS0108 driver now contains a 'back buffer' to enable quad based LCD updates, increasing data throughput efficiency of LPT port.
+Use 'lSetCapabilities(CAP_BACKBUFFER)' to enable and 'lSetCapabilities(~CAP_BACKBUFFER)' to disable.
+Updated utf.c
+Added hex2bdf.c to convert from the hex (encoding:xf45..) encoded font format to bdf.
+Added a Makefile (currently MS Windwows only) for the example programs, batch files moved to the examples/misc directory
+Makefile usage: 'make example.exe', 'make all' 'make clean'
+Added a null display and port driver. Use as a template.
+Added image and text rotation to lcmd. set rotation via '--rot 90'. Must be reset for next non rotated operation.
+Added complete HTML character and entity reference capability to the wide character print renderer. Use 'PF_HTMLCHARREF' to enable.
+Added lMergeWFont (font1,font2). Merge font2 on to font1, font1 has glyph priority.
+Various bug fixes and general code updates
+Added a myLCD XBLite header (http://perso.wanadoo.fr/xblite/) and example 'xbtest.x' to /src/xb/
+A few specific XBlite functions will be introduced to enable specific support for this excellent compiler.
+kbhit.c/h removed from the core of myLCD. kbhit.c now forms part of the examples header - demos.h
+Added fonts: ComicSans20.bdf, snap.bdf, Rought18.bdf, B24.bdf (nice CJK font) and B14.bdf (nice Unicode font).
+Repositioned the period glypth in many of the BDF fonts left from 1 to 3 pixels.
+Print renderer now auto calculates glyph width of fixed width BDF fonts, use 'PF_DISABLEAUTOWIDTH' to disable.
+Extended Print interface (lPrintEx) modified to accept formatted text.
+Added 'TLCD *lNewString (THWD *hw, int font, ubyte *formatstring, ...)'.
+lNewString creates and returns a frame containing rendered string with the strings dimensions.
+lGetFontMetrics() now also returns ascent and descent fields.
+Added 'lCloneFrame()'. As the name sugguests, Returns an exact copy of frame.
+Added 'lSetCapabilities()' and 'lGetCapabilities()'. Allows hardware capabilites to be specified.
+Currently the only supported hardware dependant capability is software side backbuffering of KS0108 displays.
+Added 'lGetMinPixelRect ()'. Returns a best fit rectangle of frame data.
+'cmap.c' updated to allow code points above 0xFFFF.
+Added 'lDrawMask(TLCD *src, TLCD *mask, TLCD *dest, int maskXoffset, maskYoffset, int mode)'
+lDrawMask() combines 'dest' frame with 'src' and 'mask'. Use flags LMASK_OR/XOR/AND/CPYSRC/CPYMASK/CLEAR.
+Added 'lGetGlyph (ubyte *c, int ch, int fontid)'. Returns BDF glyph (TWCHAR*) pointed to by either string 'c' or code point 'ch'
+
+---
+0.19.5  20'th of November 2005
+
+Added utf.c to aid conversion between UTF8 and wide charactor(16bit), still work in progress.
+PGM write support added, savePGM() added to pgm.c/h.
+Added full support for BMP bit depths of 1,4,8,16,24 & 32bpp. RLE is unsupported, use TGA if you require compression.
+TGA supports both read and write RLE compression.
+Created and added l_memset(), l_memcpy(), l_malloc(), l_calloc(), l_free() & l_realloc() to memory.c/h
+Due to the above several memory leaks were discovered and resolved.
+Added lFlushFont(). see tga/bdftest.c for usage.
+Added several BDF and 3 TGA fonts. Total fonts included with the myLCD base package now stands at 60 BDF and 67 TGA.
+lGetWTextMetrics() now returns the correct width and height.
+XMMs and Winamp plugins have been updated to include another bar graph style.
+General code tidying here and there.
+lGetWCharMetrics(), lGetWTextMetrics(), lGetWFontMetrics(), lWPrint() & lWPrintf() have been removed with the functionality
+being encompassed in to the non 'W' counterpart.
+Added example lcmd.c - a command line myLCD parser.
+'texttest.c' renamed to tgatest.c
+Added example bdftest.c
+Added version defines 'myLCDVERSIONmj' and 'myLCDVERSIONmi' to lcd.h, major and minor.
+Created and added l_fopen(), l_fclose(), l_fread(). l_fwrite(), l_flush(), l_fseek(), l_ftell(), l_lof(), l_rewind(), l_fgetpos()
+and l_fsetpos() to fileio.c/h.
+Added 'lPrintEx (TLCD *frame, ubyte *txt, TLPOINTEX *rect, int id, int flags, int style)', an extended version of lPrint().
+lPrintEx() allows text to be printed and clipped within a rectangular area, x1 & y1 of TLPOINTEX return the last (bottom right) +1
+pixel position rendered.
+lPrintEx() flags are:
+PF_DRAWTEXT - sets whether funciton will actually render anything
+PF_CLIPDRAW - clips rendering to the rect
+PF_CLIPTEXTH/V - sets whether function will draw part of the last/bottom character(s) if it overlaps the rect boundary,
+ie; only render glyph if there is room. PF_CLIPDRAW must be set.
+PF_CLIPWRAP - wrap text around frame. This auto sets PF_CLIPDRAW.
+PF_NOESCAPE - disables '\n' line break escaping.
+Corrected glyphs 'B' and '/' in dragonfly.tga
+Updated example winamp.c to allow selectable character maps.
+Print rendering now autodetects and handles '\n' as escape characters.
+Whichever print function was called will return with the byteoffset in to the string at whichever point rendering ended.
+Example file 'simple.c' updated to use lPrintEx().
+Removed flag '-march=pentium-mmx' from Makefile.linux
+
+---
+0.19.3  28'th October 2005
+
+fixed the seg fault linux users were experiencing while using the SDL display driver.
+rewrote the bdf font and charactor map loading routines.
+XMMS plugin added.
+library source and media directories reorganized
+make targets 'clean' and 'install' added
+
+'lSetFontPath()' and 'lGetFontPath' added.
+Use lSetFontPath() to set the location of the font directories before calling lOpen();
+eg: lSetFontPath("/usr/share/mylcd/fonts/"), then when required myLCD should expect to find
+bdf in location "/usr/share/mylcd/fonts/bdf/"
+Font path defaults to "fonts/".
+
+default paths are:-
+Win32:
+"../fonts/"
+"../mappings/"
+Linux:
+"/usr/share/mylcd/fonts/"
+"/usr/share/mylcd/mappings/"
+use 'make -f Makefile.linux install' to install library and fonts&mappings.
+
+---
+0.19.2	17'th October 2005
+
+
+serial port driver added (win32 only)
+
+rewrote the image file load/save interface - removed lLoadXXX(), lSaveASXXX() and lSaveFrame()
+image.c/h added
+lLoadImage() and lSaveImage() added
+pgm.c/h added
+added .PGM image load support (raw P5)
+eg:
+  lLoadImage (frame, "test.pgm", IMG_PGM, LSP_XOR);
+  lSaveImage (frame, "test.tga", IMG_TGA, width, height);
+lSaveImage will scale frame to 'width' and 'height'
+  
+
+device.c/h added
+modified the library initiation sequence.
+use lOpen() to open a handle to the hardware then lNewFrame() thereafter to acquire a surface (a frame)
+eg:
+  THWD *hw = lOpen(lcdWidth,lcdHeight,1,0x378);
+  TLCD *frame = lNewFrame(hw,frameWidth,frameheight);
+  lDeleteFrame(frame);
+  lClose(hw);
+view demos for more details
+
+
+implemented error checking, mostly completed.
+error.c/h added
+error handling functions added: lGetLastErrorInt(), lGetLastErrorStr(), lErrorToString().
+eg:
+  printf ("%i %s %s\n",lGetLastErrorInt(),lGetLastErrorStr(),lErrorToString(lGetLastErrorInt()));
+
+
+GTK virtual display for win32/linux in progress
+
+added the 'misc' directory to house those files which don't really belong anywhere else
+added a few DevC++ project files
+
+
+Scroll interface rewritten & reimplemented
+eg:
+  TLSCROLLEX *s = lNewScroll (TLCD *src, TLCD *dest);
+  s->dir = SCR_LEFT; // set direction
+  s->desRect->x1 = 10;
+  s->desRect->y1 = 10;         // set destination rectangle
+  s->desRect->x2 = 120;
+  s->desRect->y2 = s->desRect->y1+height; (top down)
+  lUpdateScroll(s); // scroll left by one pixel width
+  lDeleteScroll(s);
+
+setmem() added to utils
+lRefreshAreaTo() removed
+lRefreshArea2() renamed to lRefreshAreaB()
+
+... and lots of other code modifications and tidying too numerous to mention
+
+------
+0.19	6'th October 2005
+
+The 'WinIo.dll' dll source (from www.internal.com) has been amalgamated in to what was the myLCD winio driver code.
+This means myLCD may be built with the winio driver but with one less external .DLL (winio.dll) requirement,
+thus requiring 'winio.sys' only. WinNT/2K/XP only.
+In font 'comicsansms7x8.tga': glyphs '/' and '%' have been slightly modified to improve clarity.
+It's nolonger possible to open the library more than once without first closing.
+sysinfo.c and progressbar.c examples added and Kneego's clock updated to include a few system stats.
+lWritePort16/32() completed and updated throughout the various drivers.
+mem leak fixed - Delete_Scroll() was incorrectly freeing the scroll frame and struct.
+atexit(_exit_)/_exit_() added to catch improper shutdowns.
+At shutdown myLCD should now automatically free all unfreed frames.
+misc.c/h created
+functions moved from lcd.c to misc.c:
+	lResizeFrame(), lSleep(), lVersion() & lSaveFrame()
+frame.c/h created
+functions moved from lcd.c to frame.c:
+	lClearFrame(), lNewFrame(), lDeleteFrame()
+internal functions added to frame.c:
+	unregisterFrame(), unregisterAllFrames(), initFrameList()
+	freeFrame(), countFrames(), getFreeFrameSlot()
+error.c/h created
+template.c added
+'build' directory and contents removed.
+Various minor fixes here and there.
+DevC++ build files removed, will return later.
+API reference documents begun, should appear in next release
+	
+------
+0.18.6	28'th September 2005
+
+Makefiles for Win32 and Linux added
+Linux make targets are: linuxstatic and tinysdlstatic
+win32 make targets are:
+	winiodll	make WinIO lcddll.dll
+	winiostatic	make WinIO liblcd.a static library
+	oppdll		OpenParPort lcddll.dll
+	oppstatic	OpenParPort liblcd.a
+	dlpdll		DLPortIO lcddll.dll
+	dlpstatic	DLPortIO liblcd.a
+	tinyptcdll	TinyPTC lcddll.dll
+	tinyptcstatic	TinyPTC liblcd.a
+	tinysdldll	TinySDL lcddll.dll
+	tinysdlstatic	TinySDL liblcd.a
+	all		make default target, currently winiodll
+	clean		removes all objects and targetfiles
+
+compiling.txt updated
+compiler flag -Wall added and flag -O3 replaced with -O2.
+ks0108.c/h files moved to ks0108/
+pdriver.h created
+declarations for 'lSleep (),lOpenDisplay(), lCloseDisplay(), SetPortAddress (), GetPortAddress ()' moved to lcd.h
+declarations for 'lLoadDriver(), lCloseDriver(), lOpenDriver(), lUnloadDriver(), lIsDriverReady()' moved to pdriver.h
+declarations for 'lReadPort(), lWritePort(), lWritePort16(), lWritePort32()' moved to pdriver.h
+pixel.c/h created
+lSetPixel() and lGetPixel() moved to pixel.c
+internal functions added to pixel.c:
+	getPixel(), getPixel(), getPixel_NB(), setPixel_NB()
+	setPixel_NBS(), setPixel_NBC(), setPixel_NBX(), checkbounds()
+
+------
+0.18.4	25'th September 2005
+
+added TinySDL virtual display for both Win32 and Linux
+modified lcd.h resolving compiling issues under linux
+lSleep() now using usleep() on linux
+examples modified to use lSleep in place of sleep()
+kbhit.c added to emulate dos based kbhit() on linux
+font and character map filenames converted to lowercase
+build directory created to house build files
+many other minor & various fixes
+linux build scripts created.
+
+------
+0.18	22'nd September 2005
+
+initial release.
