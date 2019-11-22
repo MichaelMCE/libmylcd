@@ -65,8 +65,8 @@ int main ()
     	TFRAME *surface = lNewFrame(hw, width, height, bpp);
     
     	lSetBackgroundColour(hw, lGetRGBMask(surface, LMASK_WHITE));	        // paper
-		lSetForegroundColour(hw, lGetRGBMask(surface, LMASK_BLACK));    // ink
-		lClearFrame(surface);
+	lSetForegroundColour(hw, lGetRGBMask(surface, LMASK_BLACK));    // ink
+	lClearFrame(surface);
 	        
     	// print something on the top left corner of the frame
     	lPrint(surface, "hello world", 0, 0, LFT_SMALLFONTS7X7, LPRT_CPY);
@@ -80,11 +80,10 @@ int main ()
     	// or
     	//lUpdate(hw, surface->frame, surface->frameSize);
     	// or
-		//lRefreshAsync(surface, 0);   /* 0:copy frame, 1:swap frame pointers */
-
+	//lRefreshAsync(surface, 0);   /* 0:copy frame, 1:swap frame pointers */
    
-		// Save result then sleep for a few seconds
-		lSaveImage(surface, L"h.bmp", IMG_BMP, 0, 0);
+	// Save result then sleep for a few seconds
+	lSaveImage(surface, L"h.bmp", IMG_BMP, 0, 0);
     	lSleep(2000);
     	
     	// delete & free frame resources
