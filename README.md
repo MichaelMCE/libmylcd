@@ -3,10 +3,10 @@
 ## v1.0.0
 
 libmylcd includes 4 base API's in one:<br/>
-  Full unciode text rendering API.<br/>
-  Display driver API.<br/>
-  A base drawing primitive API.<br/>
-  Surface layer API to bind everything together.<br/>
+    Full unciode text rendering API.<br/>
+    Display driver API.<br/>
+    A base drawing primitive API.<br/>
+    Surface layer API to bind everything together.<br/>
 
 
 
