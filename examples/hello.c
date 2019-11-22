@@ -19,7 +19,6 @@
 #include <mylcd.h>
 
 
-
 int main ()
 {
     // Acquire a library handle
@@ -71,7 +70,7 @@ int main ()
 
    
 	    // Save result then sleep for a few seconds
-	    lSaveImage(surface, L"hello.bmp", IMG_BMP, 0, 0);
+	    //lSaveImage(surface, L"hello.bmp", IMG_BMP, 0, 0);
     	lSleep(2000);
     	
     	// delete & free frame resources
