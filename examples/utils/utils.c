@@ -27,9 +27,9 @@
 #include <windows.h>
 #include <fcntl.h>
 #include <mylcd.h>
+#include "utils.h"
 #include "file.h"
 
-#define DISPLAYMAX	8
 
 
 #undef mylog
