@@ -34,6 +34,5 @@ int main (int argc_a, char *argv_a[])
 
 	utilCleanup();
 	return EXIT_SUCCESS;
-	
 }
 
