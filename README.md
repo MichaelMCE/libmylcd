@@ -96,6 +96,6 @@ int main ()
 }
 ```
 
-Text printing ability:
+Text printing ability:<br/>
 ![font rendering](./screenshots/quickfox.png)
 
