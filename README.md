@@ -96,3 +96,6 @@ int main ()
 }
 ```
 
+Text printing ability:
+![font rendering](./screenshots/quickfox.png)
+
