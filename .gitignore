@@ -20,3 +20,6 @@
 # Editor
 .*.sw*
 *.bak
+
+# Fonts
+*.bdf
