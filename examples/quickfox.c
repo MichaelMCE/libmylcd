@@ -23,7 +23,7 @@
 #include "utils/utils.h"
 
 
-#define text "The quick brown fox jumps over the lazy dog."
+static const char *text = "The quick brown fox jumps over the lazy dog.";
 
 
 
@@ -142,12 +142,10 @@ void drawMultilayer2 (TFRAME *frame, const int x, const int y, const int font, c
 	const int colour = 0x000000;		// 24bit only
 	int blurOp = LTR_BLUR5;
 
-
 	// not really required in this use case
 	lRenderEffectReset(hw, font, LTR_BLUR5);
 	lRenderEffectReset(hw, font, LTR_BLUR4);
 	lRenderEffectReset(hw, font, LTR_BLUR1);
-	
 
 	THWD *hw = frame->hw;
 	
@@ -221,39 +219,29 @@ void drawMultilayer2 (TFRAME *frame, const int x, const int y, const int font, c
 #endif
 
 
-
-
 	TFRAME *tex = lNewImage(frame->hw, L"images/fire.jpg", frame->bpp);
-	
-	frame->hw->render->copy = (void*)renderCB_texFilter;
-	frame->hw->render->udata = (intptr_t)tex;
+	if (tex){
+		frame->hw->render->copy = (void*)renderCB_texFilter;
+		frame->hw->render->udata = (intptr_t)tex;
 
-	trect.sx = x; trect.sy = y;
-	lPrintEx(frame, &trect, font, flags, LPRT_OR, str);
-	lDeleteFrame(tex);
-
+		trect.sx = x; trect.sy = y;
+		lPrintEx(frame, &trect, font, flags, LPRT_OR, str);
+		lDeleteFrame(tex);
+	}
 	lSetFontCharacterSpacing(hw, font, oldSpacing);
 }
-
-
 
 static inline void doPrint (TFRAME *frame, const int render)
 {
 
-#if 1
-	TLPRINTR trect = {0,1,frame->width-1,frame->height-1,0,0,0,0};
+	TLPRINTR trect = {0, 1, frame->width-1, frame->height-1, 0, 0, 0, 0};
 	
 	int flags = PF_MIDDLEJUSTIFY|PF_WORDWRAP|PF_CLIPWRAP;
 	if (render)
 		flags |= 0;
 	else
 		flags |= PF_DONTRENDER;
-	
-#endif
-	
-#if 1
-	
-#if 1
+
 	lSetPixelWriteMode(frame, LSP_XOR);
 	lSetRenderEffect(hw, LTR_OUTLINE2);
 	lSetFilterAttribute(hw, LTR_OUTLINE2, 0, lGetRGBMask(frame, LMASK_RED));	// set outline colour
@@ -353,15 +341,12 @@ static inline void doPrint (TFRAME *frame, const int render)
 		
 	lSetRenderEffect(hw, LTR_180);
 	lPrintEx(frame, &trect, LFTW_ROUGHT18, flags|PF_NEWLINE, LPRT_OR, text);
-#endif
-
 
 
 	int colour = 0x000000;		// 24bit only
 	int alpha = 0.80 * 1000.0;	// alpha range of 0 to 1000
 	int radius = 3;				// 0 - 255
 
-#if 1
 
 //	000
 //	0#0			per pixel blur addition
@@ -468,7 +453,7 @@ static inline void doPrint (TFRAME *frame, const int render)
 	lSetFilterAttribute(hw, LTR_BLUR8, LTRA_BLUR_ALPHA, alpha);
 	lPrintEx(frame, &trect, LFTW_ROUGHT18, flags|PF_NEWLINE, LPRT_OR, text);
 
-#if 1
+
 	trect.ey += 8;
 	colour = 0xFF10CF;
 	lRenderEffectReset(hw, LFTW_ROUGHT18, LTR_BLUR4);	// reset previous blur4 state
@@ -511,7 +496,7 @@ static inline void doPrint (TFRAME *frame, const int render)
 	lPrintEx(frame, &trect, LFTW_ROUGHT18, flags|PF_NEWLINE, LPRT_OR, text);
 	lSetRenderEffect(hw, LTR_DEFAULT);
 	lPrintEx(frame, &trect, LFTW_ROUGHT18, flags, LPRT_OR, text);
-#endif
+
 
 	lSetForegroundColour(hw, 255<<24 | lGetRGBMask(frame, LMASK_BLACK));
 	
@@ -534,18 +519,9 @@ static inline void doPrint (TFRAME *frame, const int render)
 	//lSetFilterAttribute(hw, LTR_BLUR8, LTRA_BLUR_COLOUR, 0x00FF00);
 	// black top
 	lPrintEx(frame, &trect, LFTW_ROUGHT18, flags, LPRT_OR, text);
-	
-#endif
-
-#if 1
-	// draw a multi layered string
-	drawMultilayer1(frame, 0, 272*2+270, LFTW_B34, text, render);
-	drawMultilayer2(frame, 0, 272*3+110, LFTW_B34, text, render);
-#endif
 
 
-#endif
-/*
+	// black on white lighter
 	lSetFontCharacterSpacing(hw, LFTW_ROUGHT18, lGetFontCharacterSpacing(hw, LFTW_ROUGHT18)+1);
 	lSetForegroundColour(hw, 255<<24 | lGetRGBMask(frame, LMASK_BLACK));
 
@@ -560,56 +536,33 @@ static inline void doPrint (TFRAME *frame, const int render)
 	lSetFilterAttribute(hw, LTR_BLUR4, LTRA_BLUR_X, 0);
 	lSetFilterAttribute(hw, LTR_BLUR4, LTRA_BLUR_Y, 0);
 	lSetFilterAttribute(hw, LTR_BLUR4, LTRA_BLUR_ALPHA, alpha);
-	TFRAME *img = lNewString(frame->hw, frame->bpp, flags, LFTW_ROUGHT18, text);
+	
+	TFRAME *img = lNewString(hw, frame->bpp, 0, LFTW_ROUGHT18, text);
 	if (img){
-		lDrawImage(img, frame, abs(img->width-frame->width)/2, 272*3+215);
+		lDrawImage(img, frame, abs(img->width-frame->width)/2, trect.ey += 12);
+		//lSaveImage(img, L"quickfox_img.png", IMG_PNG, 0, 0);
 		lDeleteFrame(img);
 	}
-*/
 }
 
-
-void doTest (TFRAME *frame)
+void doWrapTest (TFRAME *frame, int x, int y)
 {
 	lSetForegroundColour(hw, 255<<24 | 0x000000);
 	lSetBackgroundColour(hw, 255<<24 | 0xFFFFFF);
-	int flags = /*PF_WORDWRAP|*/PF_CLIPWRAP|PF_CLIPDRAW|PF_TEXTBOUNDINGBOX|PF_GLYPHBOUNDINGBOX;
-	
-	char *str = "TFRAME *img = lNewString(frame->hw, frame->bpp, flags, LFTW_ROUGHT18, text);";	
+	lSetRenderEffect(hw, LTR_DEFAULT);
 		
-#if 1
+	int flags = PF_WORDWRAP|PF_CLIPWRAP|PF_CLIPDRAW|PF_TEXTBOUNDINGBOX|PF_GLYPHBOUNDINGBOX;
 	TMETRICS metrics = {0, 0, frame->width, 0};
-	TFRAME *frm = lNewStringEx(hw, &metrics, LFRM_BPP_32A, flags, LFTW_B34, str);
-	if (!frm) return;
+	TFRAME *str = lNewStringEx(hw, &metrics, LFRM_BPP_32A, flags, LFTW_B34, text);
+	if (!str) return;
 	
-	lDrawImage(frm, frame, 0, 4);
-	lDeleteFrame(frm);
-#else
-
-	TLPRINTR rect = {4, 4};
-	lPrintEx(frame, &rect, LFTW_B34, flags, LPRT_CPY, str);
-
-#endif
+	x = abs(frame->width - str->width)/2;
+	lDrawImage(str, frame, x, y);
+	lDeleteFrame(str);
 }
 
-
-int main (int argc, char* argv[])
+void drawBase (TFRAME *frame)
 {
-	if (!utilInitConfig("config.cfg"))
-		return 0;
-
-	//lSetCharacterEncoding(hw, CMT_UTF8);	
-	lSetBackgroundColour(hw, lGetRGBMask(frame, LMASK_BLACK));
-	lSetForegroundColour(hw, 255<<24 | 0xFFFFFF);
-	lResizeFrame(frame, 480, 272*4, 0);
-
-
-#if 0
-	lClearFrameClr(frame, 0xFFFFFFFF);
-
-#else
-	lClearFrame(frame);
-	
 	int r,g,b;
     for (int y = 0; y < frame->height; y++){
     	for (int x = 0; x < frame->width; x++){
@@ -644,24 +597,31 @@ int main (int argc, char* argv[])
 			}
 	    }
 	}
-#endif
+}
+
+int main (int argc, char* argv[])
+{
+	if (!utilInitConfig("config.cfg"))
+		return 0;
+
+	//lSetCharacterEncoding(hw, CMT_UTF8);	
+	lSetBackgroundColour(hw, lGetRGBMask(frame, LMASK_BLACK));
+	lSetForegroundColour(hw, 255<<24 | 0xFFFFFF);
+	lResizeFrame(frame, 480, 272*4.5, 0);
+	lClearFrame(frame);
 
 
+	drawBase(frame);
 	//doPrint(frame, 0);	// preload fonts
-	//doPrint(frame, 1);
-	//doTest(frame);	
-
-	int n = 0;
-	for (n = 0; n < 1; n++)
-		doPrint(frame, 1);
-
-	//lDrawRectangle(frame, 0, 0, frame->width-1, frame->height-1, 0xFF000000|lGetRGBMask(frame, LMASK_WHITE));
-
+	doPrint(frame, 1);
+	drawMultilayer1(frame, 0, 272*3+20, LFTW_B34, text, 1);
+	drawMultilayer2(frame, 0, 272*3+110, LFTW_B34, text, 1);
+	doWrapTest(frame, 0, 272*4-55);	
 
 	lRefresh(frame);
 	lSaveImage(frame, L"quickfox.png", IMG_PNG, 0, 0);
 	
-	lSleep(2000);
+	//lSleep(2000);
 	utilCleanup();
 	return 1;
 }
