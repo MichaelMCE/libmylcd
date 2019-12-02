@@ -37,8 +37,8 @@ int main ()
     if (hw == NULL)
     	return EXIT_FAILURE;
 
-    int width = 480;	// display width
-    int height = 272;	// display height
+    int width = 480;		// display width
+    int height = 272	;	// display height
     int data = 0;		// LPT port, data or device index selection
     int bpp = LFRM_BPP_32A;
 
@@ -63,8 +63,8 @@ int main ()
     	// (frame dimension is not tied to display dimension).
     	TFRAME *surface = lNewFrame(hw, width, height, bpp);
     
-    	lSetBackgroundColour(hw, lGetRGBMask(surface, LMASK_WHITE));	        // paper
-	lSetForegroundColour(hw, lGetRGBMask(surface, LMASK_BLACK));    // ink
+    	lSetBackgroundColour(hw, lGetRGBMask(surface, LMASK_WHITE));	// paper
+	lSetForegroundColour(hw, lGetRGBMask(surface, LMASK_BLACK));	// ink
 	lClearFrame(surface);
 	        
     	// print something on the top left corner of the frame
