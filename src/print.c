@@ -160,7 +160,6 @@ TFRAME * newStringEx (THWD *hw, const TMETRICS *metrics, const int lbpp, const i
 		w = abs(metrics->width);
 	
 	getTextMetrics(hw, buffer, flags, font, &w, &h);
-	//printf("newStringEx 1: %i %i\n", w, h);
 	//h += 50;
 	
 	w += 1;
@@ -191,12 +190,9 @@ TFRAME * newStringEx (THWD *hw, const TMETRICS *metrics, const int lbpp, const i
 	TFRAME *frame = _newFrame(hw, w, h, 1, lbpp);
 
 	if (frame){
-		//printf("newStringEx 2: %i %i\n", w, h);
-		
 		int ret = _printEx(frame, &rect, font, flags|PF_IGNOREFORMATTING/*|PF_CLIPWRAP*/, LPRT_CPY, buffer, NULL);
 		if (fbuffer) l_free(fbuffer);
-		//printf("newStringEx 3: %i\n", ret);
-		
+
 		if (ret)
 	 		return frame;
 		else
